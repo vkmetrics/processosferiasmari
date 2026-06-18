@@ -714,7 +714,7 @@
   /* ── ROTINA ITEMS ── */
   .rotina-item { list-style: none; padding: 6px 0; border-bottom: 1px solid var(--border); }
   .rotina-item:last-child { border-bottom: none; }
-  .rotina-item.hidden { display: none; }
+  .rotina-item.hidden { display: none !important; }
   .rotina-item-row {
     display: flex;
     align-items: center;
@@ -773,10 +773,8 @@
     margin-bottom: 8px;
   }
   .rotina-list {
-    padding-left: 16px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    padding-left: 0;
+    list-style: none;
   }
   .rotina-list li {
     font-size: 13px;
