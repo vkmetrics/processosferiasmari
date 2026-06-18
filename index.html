@@ -1,0 +1,1807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Processo – Onboarding VK Metrics Pro</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #232636;
+    --border: #2e3347;
+    --accent: #6c63ff;
+    --accent-soft: rgba(108,99,255,0.12);
+    --accent2: #ff6584;
+    --green: #3ecf8e;
+    --green-soft: rgba(62,207,142,0.1);
+    --yellow: #f5c842;
+    --yellow-soft: rgba(245,200,66,0.1);
+    --text: #e8eaf0;
+    --text-muted: #7a8099;
+    --text-dim: #4a5068;
+    --radius: 10px;
+    --radius-sm: 6px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 28px 40px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo-dot {
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    flex-shrink: 0;
+  }
+  header h1 {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--text);
+  }
+  header span {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-left: 4px;
+  }
+  .nav-pills {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .nav-pill {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+  }
+  .nav-pill:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ── LAYOUT ── */
+  .page { max-width: 900px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── SECTION TITLES ── */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    margin-top: 56px;
+  }
+  .section-header:first-of-type { margin-top: 0; }
+  .section-icon {
+    width: 32px; height: 32px;
+    background: var(--accent-soft);
+    border: 1px solid var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .section-header .badge {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid rgba(108,99,255,0.3);
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 12px;
+  }
+  .card-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .card p, .card li { font-size: 14px; color: var(--text); line-height: 1.7; }
+  .card ul { padding-left: 18px; }
+  .card li { margin-bottom: 4px; }
+
+  /* ── FUNIL ── */
+  .kanban {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 24px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .kanban::-webkit-scrollbar { height: 4px; }
+  .kanban::-webkit-scrollbar-track { background: var(--surface); border-radius: 2px; }
+  .kanban::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .kanban-col {
+    flex-shrink: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    width: 140px;
+    position: relative;
+  }
+  .kanban-col::after {
+    content: '→';
+    position: absolute;
+    right: -16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-dim);
+    font-size: 12px;
+  }
+  .kanban-col:last-child::after { display: none; }
+  .kanban-col h4 {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .kanban-col p { font-size: 11px; color: var(--text-muted); line-height: 1.5; }
+  .kanban-col.active { border-color: var(--green); }
+  .kanban-col.active h4 { color: var(--green); }
+
+  /* ── MENSAGENS ── */
+  .msg-group { margin-bottom: 20px; }
+  .msg-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .msg-label .num {
+    width: 20px; height: 20px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .msg-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    position: relative;
+    overflow: hidden;
+  }
+  .msg-block:hover { border-color: rgba(108,99,255,0.4); }
+  .msg-text {
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    padding: 14px 16px;
+    white-space: pre-wrap;
+    font-family: 'Inter', sans-serif;
+  }
+  .msg-text a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .msg-text a:hover { text-decoration: underline; }
+  .copy-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-btn.copied {
+    border-color: var(--green);
+    color: var(--green);
+  }
+  .copy-btn svg { width: 12px; height: 12px; }
+
+  /* ── COPY ALL BTN ── */
+  .copy-all-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
+  }
+  .copy-all-btn:hover { background: rgba(108,99,255,0.2); }
+  .copy-all-btn.copied { border-color: var(--green); color: var(--green); background: var(--green-soft); }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: flex;
+    gap: 16px;
+    padding: 0 0 24px;
+    position: relative;
+  }
+  .step:last-child { padding-bottom: 0; }
+  .step-line {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  .step-num {
+    width: 28px; height: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .step-connector {
+    width: 1px;
+    flex: 1;
+    background: var(--border);
+    margin-top: 6px;
+    margin-bottom: 0;
+  }
+  .step:last-child .step-connector { display: none; }
+  .step-content { flex: 1; padding-top: 4px; }
+  .step-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+  }
+  .step-content p {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .step-content a { color: var(--accent); text-decoration: none; word-break: break-all; }
+  .step-content a:hover { text-decoration: underline; }
+  .step-content .tip {
+    background: var(--yellow-soft);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: var(--radius-sm);
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--yellow);
+    margin-top: 8px;
+    line-height: 1.5;
+  }
+  .step-content .tip strong { color: var(--yellow); }
+
+  /* ── CHECKLIST ── */
+  .checklist { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: all 0.15s;
+    font-size: 13px;
+    color: var(--text);
+    user-select: none;
+  }
+  .check-item:hover { border-color: var(--accent); }
+  .check-item.done {
+    color: var(--text-muted);
+    border-color: var(--green);
+    background: var(--green-soft);
+  }
+  .check-item.done .check-box {
+    background: var(--green);
+    border-color: var(--green);
+  }
+  .check-item.done .check-box::after {
+    opacity: 1;
+  }
+  .check-box {
+    width: 18px; height: 18px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: all 0.15s;
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .check-box::after {
+    content: '✓';
+    font-size: 11px;
+    color: var(--bg);
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  /* ── ALERT ── */
+  .alert {
+    background: var(--surface2);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-left: 3px solid var(--yellow);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+  .alert strong { color: var(--yellow); }
+
+  /* ── LINKS SECTION ── */
+  .link-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .link-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: all 0.15s;
+    cursor: pointer;
+  }
+  .link-card:hover { border-color: var(--accent); }
+  .link-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .link-card-info h4 {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+  .link-card-info p { font-size: 11px; color: var(--text-muted); }
+
+  /* ── PLACEHOLDER ── */
+  .placeholder {
+    border: 1.5px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 13px;
+    margin-bottom: 12px;
+  }
+  .placeholder strong { display: block; font-size: 14px; color: var(--text-muted); margin-bottom: 4px; }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    width: 100%;
+    max-width: 560px;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 28px;
+    position: relative;
+  }
+  .modal h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: monospace;
+  }
+  .modal-close:hover { color: var(--text); border-color: var(--text-muted); }
+
+  /* ── TOAST ── */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--green);
+    color: var(--bg);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 30px;
+    z-index: 300;
+    transition: transform 0.25s ease;
+    white-space: nowrap;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 24px;
+  }
+  .tab-btn {
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 10px 18px;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ── KANBAN TOOLTIP ── */
+  .kanban-tooltip-wrap { position: relative; }
+  .kanban-hint {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px; height: 14px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 700;
+    border-radius: 50%;
+    vertical-align: middle;
+    margin-left: 4px;
+    cursor: default;
+    font-style: normal;
+    flex-shrink: 0;
+  }
+  .kanban-tooltip {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    width: 210px;
+    z-index: 50;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .kanban-tooltip::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--accent);
+  }
+  .kanban-tooltip-wrap:hover .kanban-tooltip { display: block; }
+  .kanban-tooltip-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .kanban-tooltip-list {
+    padding-left: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .kanban-tooltip-list li {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* ── NEXT STEP BLOCK ── */
+  .next-step-block {
+    display: flex;
+    gap: 12px;
+    background: rgba(108,99,255,0.07);
+    border: 1px solid rgba(108,99,255,0.35);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin: 8px 0 20px;
+  }
+  .next-step-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+  .next-step-body { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+  .next-step-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+    letter-spacing: 0.01em;
+  }
+  .next-step-list {
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .next-step-list li {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+  .next-step-list li strong { color: var(--text); }
+  .next-step-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: var(--accent);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 7px 14px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all 0.15s;
+    width: fit-content;
+  }
+  .next-step-btn:hover { background: rgba(108,99,255,0.2); }
+
+  /* ── SELECT FIELDS ── */
+  .select-field { display: flex; flex-direction: column; gap: 5px; }
+  .select-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+  }
+  .select-input {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    padding: 8px 12px;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M2 4l4 4 4-4' stroke='%237a8099' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+  }
+  .select-input:hover { border-color: var(--accent); }
+  .select-input:focus { border-color: var(--accent); color: var(--text); }
+  .select-input option { background: var(--surface2); color: var(--text); }
+
+  /* ── DIVIDER ── */
+  hr {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 32px 0;
+  }
+
+  /* ── FILTER BAR ── */
+  .filter-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+  }
+  .filter-label {
+    font-size: 12px;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+  .filter-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+  /* ── ROTINA ITEMS ── */
+  .rotina-item { list-style: none; padding: 6px 0; border-bottom: 1px solid var(--border); }
+  .rotina-item:last-child { border-bottom: none; }
+  .rotina-item.hidden { display: none; }
+  .rotina-item-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .rotina-item-row > span:first-child {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+  .rotina-item-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+  }
+  .resp-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .resp-bia   { background: rgba(108,99,255,0.15); color: var(--accent); border: 1px solid rgba(108,99,255,0.3); }
+  .resp-pedro { background: rgba(62,207,142,0.12); color: var(--green);  border: 1px solid rgba(62,207,142,0.3); }
+  .resp-homero{ background: rgba(255,101,132,0.12); color: #ff6584;      border: 1px solid rgba(255,101,132,0.3); }
+  .resp-lads  { background: rgba(245,200,66,0.12); color: var(--yellow); border: 1px solid rgba(245,200,66,0.3); }
+  .msg-icon-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text-dim);
+    font-size: 13px;
+    width: 28px; height: 28px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+  .msg-icon-btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+
+  /* ── ROTINA ── */
+  .rotina-day {
+    border-bottom: 1px solid var(--border);
+    padding: 12px 0;
+    margin-bottom: 4px;
+  }
+  .rotina-day-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 8px;
+  }
+  .rotina-list {
+    padding-left: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  .rotina-list li {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+  .rotina-list em { color: var(--text-dim); }
+  .rotina-alert {
+    display: inline-block;
+    background: rgba(245,200,66,0.12);
+    border: 1px solid rgba(245,200,66,0.3);
+    color: var(--yellow);
+    font-size: 11px;
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+    letter-spacing: 0.02em;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    header { padding: 16px 20px; flex-wrap: wrap; }
+    .nav-pills { margin-left: 0; width: 100%; }
+    .page { padding: 28px 16px 60px; }
+    .section-header { margin-top: 40px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo-dot"></div>
+  <h1>VK Metrics Pro <span>— Central de Processos</span></h1>
+  <nav class="nav-pills">
+    <button class="nav-pill" onclick="scrollTo('rotina')">Rotina</button>
+    <button class="nav-pill" onclick="scrollTo('funil')">Funil</button>
+    <button class="nav-pill" onclick="scrollTo('links')">Links</button>
+  </nav>
+</header>
+
+<!-- TOAST -->
+<div class="toast" id="toast">Copiado!</div>
+
+<!-- MODAL HOTMART -->
+<div class="modal-overlay" id="modal-hotmart">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-hotmart')">✕</button>
+    <h3>🛒 Liberar acesso na Hotmart</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-line"><div class="step-num">1</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Pedir acesso à Mari Tirelli</h4>
+          <p>Antes de qualquer coisa, confirme que você tem acesso de admin. Se não tiver, solicite para <strong>Mari Tirelli</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">2</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Abrir o painel de membros</h4>
+          <p>Acesse: <a href="https://app.hotmart.com/membership/api-oficial/products" target="_blank">app.hotmart.com/membership/api-oficial/products</a></p>
+          <p style="margin-top:6px;">Na lateral esquerda, clique em <strong>Membros</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">3</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Adicionar o membro individualmente</h4>
+          <p>Clique em <strong>Adicionar membros</strong> → <strong>Importar um membro individualmente</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">4</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Preencher os dados</h4>
+          <ul style="padding-left:16px;font-size:13px;color:var(--text-muted);margin-top:4px;display:flex;flex-direction:column;gap:4px;">
+            <li>Nome e e-mail do cliente</li>
+            <li>Produto: <strong style="color:var(--text);">Comunidade VK Metrics Pro (Asgard)</strong></li>
+            <li>Data final de acesso <em style="color:var(--text-dim)">(setembro, conforme o plano)</em></li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">5</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Confirmar</h4>
+          <p>Clique em <strong>Adicionar usuário</strong>. ✅</p>
+          <div class="tip" style="margin-top:10px;">
+            <strong>Roas/Summit:</strong> apenas 1 pessoa no grupo e 1 e-mail na Hotmart.<br>
+            <strong>Pro:</strong> até 2 pessoas no grupo e 2 e-mails na Hotmart <em>(exceto em eventos: só 1)</em>.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">6</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Definir o Gerente de Contas</h4>
+          <p>Determine quem será o Gerente de Contas, registre no card do DataCrazy e avise o gerente diretamente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTRATO -->
+<div class="modal-overlay" id="modal-contrato">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-contrato')">✕</button>
+    <h3>📄 Como produzir o contrato</h3>
+    <div class="steps">
+      <div class="step">
+        <div class="step-line"><div class="step-num">1</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Criar pasta do cliente</h4>
+          <p>Criar uma pasta com o nome do cliente em: <a href="https://drive.google.com/drive/folders/13FzvRUeCAyuYOFl0nFSSsgQyApIm5hui?usp=sharing" target="_blank">Drive → Contratos</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">2</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Fazer cópia do modelo</h4>
+          <p>Copiar o <a href="https://docs.google.com/document/d/1qI_wZtyKhlPB-ThBMPg6JB2CnXRuh5RE/edit?usp=sharing&ouid=117174688490355892653&rtpof=true&sd=true" target="_blank">modelo de contrato</a> dentro da pasta do cliente.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">3</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Preencher os dados em amarelo</h4>
+          <p>O valor a preencher no contrato é o que aparece em <strong>"detalhes" da venda</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">4</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Enviar pelo Assina Aí</h4>
+          <p>Pedir acesso para <strong>Natália Coffani</strong> ou <strong>Karine Souza</strong>. Após enviar, mover o card para <strong>"Contrato Enviado"</strong> e avisar o cliente.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- ============================================================ -->
+  <!--  ROTINA FIXA                                                  -->
+  <!-- ============================================================ -->
+  <div id="rotina"></div>
+  <div class="section-header">
+    <div class="section-icon">📅</div>
+    <h2>Rotina Fixa</h2>
+  </div>
+
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:24px;">Para facilitar, as inscrições dos plantões foram retiradas.</p>
+
+  <!-- FILTRO DE RESPONSÁVEL -->
+  <div class="filter-bar">
+    <span class="filter-label">Filtrar por responsável:</span>
+    <button class="filter-btn active" onclick="filterResponsavel('todos', this)">Todos</button>
+    <button class="filter-btn" onclick="filterResponsavel('bia', this)">Bia</button>
+    <button class="filter-btn" onclick="filterResponsavel('pedro-cabral', this)">Pedro Cabral</button>
+    <button class="filter-btn" onclick="filterResponsavel('homero', this)">Homero</button>
+    <button class="filter-btn" onclick="filterResponsavel('lads', this)">Lads</button>
+  </div>
+
+  <!-- SEMANA 1 -->
+  <div class="card" style="margin-bottom:12px;">
+    <div class="card-title">Semana 22/06 a 26/06</div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Segunda — 22/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar programação da semana nos grupos: Mentoria e Mastermind</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-seg-prog')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete da tarefa do Desafio da Dani Tiemi</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-seg-desafio')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="lads">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Dúvidas no grupo do Desafio</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-lads">Lads</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Terça — 23/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Automações</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-ter-auto')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="lads">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Dúvidas no grupo do Desafio</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-lads">Lads</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Quarta — 24/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Desafio da Dani Tiemi <em>(1h antes, 15min antes, ao vivo)</em> <span class="rotina-alert">PRECISA TER ALGUÉM AO VIVO</span></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-qua-desafio')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Criativos e da VKuarta</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-qua-criativos')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Subir aula da Dani Tiemi na Hotmart e colocar tarefa/materiais na descrição — <a href="https://app.hotmart.com/membership/api-oficial/products/edit/4428193/admin/beta/modules" target="_blank" style="color:var(--accent);">último módulo</a></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Atualizar tarefa do Desafio no <a href="https://docs.google.com/forms/d/e/1FAIpQLSdyw7-Hfi5S78Ugn8fk-Ew8YScbvuxGGI-AKie5TD-2m-n5dg/viewform?usp=sharing&ouid=117174688490355892653" target="_blank" style="color:var(--accent);">formulário de entregas</a> e enviar no grupo</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Lembrar Lucas Gilbert do Plantão de Copy — <span style="color:var(--text-dim);font-size:12px;">31 9295-0050</span></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Quinta — 25/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Copy e do Hotseat</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s1-qui-copy')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="pedro-cabral">
+          <div class="rotina-item-row">
+            <span>Entrar em contato com as pessoas que ganharam a camiseta e o kit da VKuarta</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-pedro">Pedro Cabral</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="pedro-cabral homero">
+          <div class="rotina-item-row">
+            <span>Subir VKuarta no produto "VK Metrics BI" após os meninos subirem no "Comunidade VK Metrics Pro"</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-pedro">Pedro Cabral</span>
+              <span class="resp-tag resp-homero">Homero</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <div class="rotina-day-label">Sexta — 26/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Alinhar Plantão de Tráfego da próxima semana com o Léo gestor — plantão aberto, sem inscrição, às 14h. <span style="color:var(--text-dim);font-size:12px;">Contato: +55 47 9281-9716</span></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- SEMANA 2 -->
+  <div class="card" style="margin-bottom:12px;">
+    <div class="card-title">Semana 29/06 a 03/07</div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Segunda — 29/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar programação da semana nos grupos: Mentoria e Mastermind</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s2-seg-prog')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete da tarefa do Desafio da Dani Tiemi <em>(usar semana passada como inspiração)</em></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="lads">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete da aula de Debriefing no grupo do Desafio</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-lads">Lads</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Terça — 30/06</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Automações</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s2-ter-auto')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Quarta — 01/07</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Desafio da Dani Tiemi <span class="rotina-alert">PRECISA TER ALGUÉM AO VIVO</span></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s2-qua-desafio')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete da VKuarta</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s2-qua-vkuarta')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Subir aula da Dani Tiemi na Hotmart e colocar tarefa/materiais na descrição — <a href="https://app.hotmart.com/membership/api-oficial/products/edit/4428193/admin/beta/modules" target="_blank" style="color:var(--accent);">último módulo</a></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Atualizar tarefa do Desafio no <a href="https://docs.google.com/forms/d/e/1FAIpQLSdyw7-Hfi5S78Ugn8fk-Ew8YScbvuxGGI-AKie5TD-2m-n5dg/viewform?usp=sharing&ouid=117174688490355892653" target="_blank" style="color:var(--accent);">formulário de entregas</a> e enviar no grupo</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="lads">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete da aula de Debriefing no grupo do Desafio</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-lads">Lads</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Subir aula na pasta e compartilhar no grupo do Desafio — <a href="https://drive.google.com/drive/folders/1eZFrwEYOmYkaN9jAXQZUPXGmuPZGmiND" target="_blank" style="color:var(--accent);">Gravação</a> · <a href="https://drive.google.com/drive/folders/1lkldyF0UjBVt3LEUWLN3gDvu4y04Uq59" target="_blank" style="color:var(--accent);">Pasta do Desafio</a></span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day">
+      <div class="rotina-day-label">Quinta — 02/07</div>
+      <ul class="rotina-list">
+        <li class="rotina-item" data-resp="bia">
+          <div class="rotina-item-row">
+            <span>Enviar lembrete do Plantão de Tráfego</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-bia">Bia</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-s2-qui-trafego')" title="Ver mensagem sugerida">💬</button>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="pedro-cabral">
+          <div class="rotina-item-row">
+            <span>Entrar em contato com as pessoas que ganharam a camiseta e o kit da VKuarta</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-pedro">Pedro Cabral</span>
+            </div>
+          </div>
+        </li>
+        <li class="rotina-item" data-resp="pedro-cabral homero">
+          <div class="rotina-item-row">
+            <span>Subir VKuarta no produto "VK Metrics BI" após os meninos subirem no "Comunidade VK Metrics Pro"</span>
+            <div class="rotina-item-meta">
+              <span class="resp-tag resp-pedro">Pedro Cabral</span>
+              <span class="resp-tag resp-homero">Homero</span>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="rotina-day" style="border-bottom:none;margin-bottom:0;padding-bottom:0;">
+      <div class="rotina-day-label">Sexta — 03/07</div>
+      <ul class="rotina-list">
+        <li style="color:var(--text-dim);font-style:italic;font-size:13px;">Nenhuma tarefa registrada.</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- MODAIS DE MENSAGEM SUGERIDA -->
+  <div class="modal-overlay" id="modal-msg">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('modal-msg')">✕</button>
+      <h3 id="modal-msg-title">💬 Mensagem sugerida</h3>
+      <div class="msg-block" style="margin-top:16px;">
+        <pre class="msg-text" id="modal-msg-body" style="white-space:pre-wrap;"></pre>
+        <button class="copy-btn" id="modal-msg-copy" onclick="copyModalMsg()">
+          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
+          Copiar
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- ============================================================ -->
+  <!--  FUNIL                                                        -->
+  <!-- ============================================================ -->
+  <div id="funil"></div>
+  <div class="section-header">
+    <div class="section-icon">🗂</div>
+    <h2>Funil Mentoria Asgard — Informações importantes</h2>
+  </div>
+
+  <p style="font-size:14px;color:var(--text-muted);margin-bottom:20px;line-height:1.7;">O fluxo está sendo organizado pelo DataCrazy no funil "Mentoria Asgard". Atualmente, estamos lidando com três planos:</p>
+
+  <div class="card" style="margin-bottom:20px;">
+    <div class="card-title">Os três planos</div>
+    <ul>
+      <li><strong>Clientes que vieram do evento do Roas</strong> — acesso até setembro, 2 calls de consultoria. Não tem contrato.</li>
+      <li><strong>Clientes que compraram outros planos no Summit</strong> — acesso até setembro, 2 calls de consultoria. Não tem contrato.</li>
+      <li><strong>Clientes Pro</strong> — clientes novos ou que eram do plano ilimitado e foram pro Pro pós Summit. Tem contrato.</li>
+    </ul>
+    <div style="border-top:1px solid var(--border);margin:14px 0 10px;"></div>
+    <div class="card-title">Tags no DataCrazy</div>
+    <ul>
+      <li><strong>Evento_Roas / cliente-roas</strong> — vieram do evento do Roas</li>
+      <li><strong>VK Summit – Maio/2026</strong> — compraram planos no Summit</li>
+      <li><em>Sem tag específica</em> — Clientes Pro</li>
+    </ul>
+  </div>
+
+  <div class="kanban" id="funil-kanban">
+    <div class="kanban-col">
+      <h4>Novo cliente</h4>
+      <p>CS ainda não entrou em contato</p>
+    </div>
+    <div class="kanban-col kanban-tooltip-wrap">
+      <h4>Contato iniciado <span class="kanban-hint">ℹ</span></h4>
+      <p>Enviou Hotmart, grupo e formulário. Aguarda formulário.</p>
+      <div class="kanban-tooltip">
+        <div class="kanban-tooltip-title">Checklist interno do card</div>
+        <ul class="kanban-tooltip-list">
+          <li>Acesso área de membros</li>
+          <li>Acesso comunidade VK Metrics PRO</li>
+          <li>Formulário de dados</li>
+        </ul>
+      </div>
+    </div>
+    <div class="kanban-col">
+      <h4>Formulário preenchido</h4>
+      <p>Desbloqueia o contrato</p>
+    </div>
+    <div class="kanban-col">
+      <h4>Contrato enviado</h4>
+      <p>Produzido e enviado para assinar</p>
+    </div>
+    <div class="kanban-col">
+      <h4>Contrato assinado</h4>
+      <p>Liberado para agendar consultorias</p>
+    </div>
+    <div class="kanban-col">
+      <h4>Call agendada</h4>
+      <p>Sessão com data marcada</p>
+    </div>
+    <div class="kanban-col active">
+      <h4>Onboarding concluído</h4>
+      <p>Pelo menos uma call realizada</p>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!--  ROAS / SUMMIT                                                -->
+  <!-- ============================================================ -->
+  <div id="roas"></div>
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon">🎯</div>
+    <h2>Clientes Roas e Summit</h2>
+    <span class="badge">3 meses de acesso</span>
+  </div>
+
+  <div class="alert">
+    <strong>Antes de tudo:</strong>
+    <ul style="margin-top:6px;padding-left:18px;">
+      <li>CS de VK Metrics BI atualiza o funil BASIC/SUMMIT ou ROAS/VK METRICS colocando a tag <strong>"Expansão – OK"</strong></li>
+      <li>Cria um novo negócio no funil <strong>Mentoria Asgard → coluna "Novo cliente"</strong></li>
+    </ul>
+  </div>
+
+  <div class="alert">
+    <strong>Atenção:</strong>
+    <ul style="margin-top:6px;padding-left:18px;">
+      <li>Colocar apenas <strong>uma pessoa</strong> no grupo e liberar apenas <strong>um e-mail</strong> na Hotmart</li>
+      <li>Manter o card sempre atualizado</li>
+      <li>Sem resposta? Mover para coluna <strong>"sem retorno"</strong> até que o cliente responda</li>
+    </ul>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('roas', 'msgs', this)">Mensagens de contato</button>
+    <button class="tab-btn" onclick="switchTab('roas', 'reforco', this)">Follow-up consultorias</button>
+    <button class="tab-btn" onclick="switchTab('roas', 'semgrupo', this)">Sem entrada no grupo</button>
+  </div>
+
+  <!-- TAB: msgs de contato -->
+  <div class="tab-panel active" id="tab-roas-msgs">
+    <button class="copy-all-btn" onclick="copyAll('roas-contact')" id="btn-roas-contact">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Copiar todas as mensagens
+    </button>
+
+    <div id="roas-contact">
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">1</div> Primeira mensagem</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="roas-m1">Ei, NOME! Tudo bem? Mari da VK aqui! Estou passando pra te dar boas-vindas à Comunidade VK Metrics Pro! Você terá acesso aos entregáveis até setembro 😉</pre>
+          <button class="copy-btn" onclick="copyMsg('roas-m1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">2</div> Segunda mensagem — os três passos</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="roas-m2">Neste primeiro momento, vamos seguir três passos:
+
+1. Vou liberar o seu acesso à área de membros da Hotmart com o e-mail de compra da ferramenta: https://hotmart.com/pt-br/club/api-oficial/products/4428193.
+
+2. Vou deixar abaixo o link do grupo da Comunidade. É só pedir pra entrar que te libero pra você se apresentar pros outros participantes!
+
+3. Por último, mas não menos importante, nesse começo a gente acaba ficando um pouco perdido, são muitas informações. Mas vou te enviar o link da nossa central! Nele você encontra a agenda da semana, links importantes, datas dos próximos eventos, entregáveis, etc.: https://vkmetrics.github.io/comunidadevkmetricspro/</pre>
+          <button class="copy-btn" onclick="copyMsg('roas-m2', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">3</div> Link do grupo</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="roas-m3">Grupo: https://chat.whatsapp.com/LJEmXaf5cUE4Czg4Vxk6vI</pre>
+          <button class="copy-btn" onclick="copyMsg('roas-m3', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">4</div> Encerramento</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="roas-m4">Bom demais ter você com a gente! Qualquer dúvida estou à disposição!</pre>
+          <button class="copy-btn" onclick="copyMsg('roas-m4', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="next-step-block">
+        <div class="next-step-icon">⚡</div>
+        <div class="next-step-body">
+          <div class="next-step-title">Após enviar as mensagens — faça agora:</div>
+          <ul class="next-step-list">
+            <li>Libere o acesso na Hotmart (acesso até setembro)</li>
+            <li>Determine o Gerente de Contas, registre no card e avise o gerente</li>
+            <li>O card fica em <strong>"Contato Iniciado"</strong> até a primeira call ser agendada</li>
+          </ul>
+          <button class="next-step-btn" onclick="openModal('modal-hotmart')">📋 Ver passo a passo: liberar acesso na Hotmart</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: reforço consultorias -->
+  <div class="tab-panel" id="tab-roas-reforco">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Enviar após o cliente entrar no grupo. Também é possível enviar a agenda do Lads.</p>
+
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">1</div> Reforço de consultorias</div>
+      <div class="msg-block">
+        <pre class="msg-text" id="roas-reforco1">Ei, NOME! Tudo bem? Como o seu acesso de 3 meses gratuitos na Comunidade já começou a contar, quero muito garantir que você consiga aproveitar ao máximo o nosso ecossistema.</pre>
+        <button class="copy-btn" onclick="copyMsg('roas-reforco1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">2</div></div>
+      <div class="msg-block">
+        <pre class="msg-text" id="roas-reforco2">Não sei se você se lembra, mas você tem direito a duas consultorias individuais com um dos sócios da VK. O que você acha de já marcarmos a primeira? Me avisa quais os seus melhores dias e horários por aí! 😉</pre>
+        <button class="copy-btn" onclick="copyMsg('roas-reforco2', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top:4px;display:flex;align-items:flex-start;gap:10px;">
+      <span style="font-size:16px;flex-shrink:0;">⚠️</span>
+      <div><strong>Quando a call for confirmada:</strong> registre a data e horário no campo "Negociação" do card e mova para a coluna <strong>"Call de consultoria agendada"</strong>.</div>
+    </div>
+  </div>
+
+  <!-- TAB: sem grupo -->
+  <div class="tab-panel" id="tab-roas-semgrupo">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Para clientes que não entraram no grupo de WhatsApp.</p>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">1</div></div>
+      <div class="msg-block">
+        <pre class="msg-text" id="roas-sg1">Ei, NOME! Tudo bem? Notei que você ainda não entrou no grupo de WhatsApp da comunidade. Como o seu acesso de 3 meses gratuitos já começou a contar, quero muito garantir que você consiga aproveitar ao máximo o nosso ecossistema. O link do grupo é esse aqui:</pre>
+        <button class="copy-btn" onclick="copyMsg('roas-sg1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">2</div></div>
+      <div class="msg-block">
+        <pre class="msg-text" id="roas-sg2">https://chat.whatsapp.com/LJEmXaf5cUE4Czg4Vxk6vI</pre>
+        <button class="copy-btn" onclick="copyMsg('roas-sg2', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">3</div></div>
+      <div class="msg-block">
+        <pre class="msg-text" id="roas-sg3">Além disso, você tem direito a duas consultorias individuais direto com um dos sócios da VK. Você já tem interesse em marcar a primeira?</pre>
+        <button class="copy-btn" onclick="copyMsg('roas-sg3', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!--  CLIENTES PRO                                                 -->
+  <!-- ============================================================ -->
+  <div id="pro"></div>
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon">⭐</div>
+    <h2>Clientes Pro</h2>
+    <span class="badge">Com contrato</span>
+  </div>
+
+  <div class="alert">
+    <strong>Antes de tudo:</strong>
+    <ul style="margin-top:6px;padding-left:18px;">
+      <li>CS de VK Metrics BI atualiza o funil PRO/VK METRICS colocando a tag <strong>"Expansão – OK"</strong></li>
+      <li>Cria um novo negócio no funil <strong>Mentoria Asgard → coluna "Novo cliente"</strong></li>
+    </ul>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('pro', 'msgs', this)">Mensagens de contato</button>
+    <button class="tab-btn" onclick="switchTab('pro', 'contrato', this)">Formulário → Contrato</button>
+    <button class="tab-btn" onclick="switchTab('pro', 'followup', this)">Follow-up formulário</button>
+    <button class="tab-btn" onclick="switchTab('pro', 'poscontrato', this)">Pós-contrato</button>
+  </div>
+
+  <!-- TAB: msgs pro -->
+  <div class="tab-panel active" id="tab-pro-msgs">
+    <button class="copy-all-btn" onclick="copyAll('pro-contact')" id="btn-pro-contact">
+      <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
+      Copiar todas as mensagens
+    </button>
+
+    <div id="pro-contact">
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">1</div> Boas-vindas + quatro passos</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="pro-m1">Ei, NOME! Tudo bem? Mari da VK aqui! Estou passando pra te dar boas-vindas à Comunidade VK Metrics Pro! 😉
+
+Neste primeiro momento, vamos seguir quatro passos:</pre>
+          <button class="copy-btn" onclick="copyMsg('pro-m1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">2</div> Os quatro passos</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="pro-m2">1. Vou liberar o seu acesso à área de membros da Hotmart com o e-mail de compra da ferramenta: https://hotmart.com/pt-br/club/api-oficial/products/4428193.
+
+2. Vou deixar abaixo o link do grupo da Comunidade. É só pedir pra entrar que te libero pra você se apresentar pros outros participantes!
+
+3. Você pode preencher o nosso formulário com as suas informações, por favor? Assim a gente consegue produzir o seu contrato certinho e liberar as consultorias individuais. Formulário: https://forms.gle/ML5DQNYmUsj6wZZu7
+
+4. Por último, mas não menos importante, nesse começo a gente acaba ficando um pouco perdido, são muitas informações. Mas vou te enviar o link da nossa central! Nele você encontra a agenda da semana, links importantes, datas dos próximos eventos, entregáveis, etc.: https://vkmetrics.github.io/comunidadevkmetricspro/</pre>
+          <button class="copy-btn" onclick="copyMsg('pro-m2', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">3</div> Link do grupo</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="pro-m3">Grupo: https://chat.whatsapp.com/LJEmXaf5cUE4Czg4Vxk6vI</pre>
+          <button class="copy-btn" onclick="copyMsg('pro-m3', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="msg-group">
+        <div class="msg-label"><div class="num">4</div> Encerramento</div>
+        <div class="msg-block">
+          <pre class="msg-text" id="pro-m4">Bom demais ter você com a gente! Qualquer dúvida estou à disposição!</pre>
+          <button class="copy-btn" onclick="copyMsg('pro-m4', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+        </div>
+      </div>
+
+      <div class="next-step-block">
+        <div class="next-step-icon">⚡</div>
+        <div class="next-step-body">
+          <div class="next-step-title">Após enviar as mensagens — faça agora:</div>
+          <ul class="next-step-list">
+            <li>Libere o acesso na Hotmart (acesso até setembro)</li>
+            <li>Determine o Gerente de Contas, registre no card e avise o gerente</li>
+            <li>O card fica em <strong>"Contato Iniciado"</strong> até o formulário ser preenchido</li>
+          </ul>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="next-step-btn" onclick="openModal('modal-hotmart')">📋 Liberar acesso na Hotmart</button>
+            <button class="next-step-btn" onclick="openModal('modal-contrato')" style="background:var(--surface);border-color:var(--border);color:var(--text-muted);">📄 Produzir contrato</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: formulário → contrato -->
+  <div class="tab-panel" id="tab-pro-contrato">
+
+    <div class="next-step-block" style="margin-top:0;">
+      <div class="next-step-icon">📋</div>
+      <div class="next-step-body">
+        <div class="next-step-title">Quando o cliente preencher o formulário:</div>
+        <ul class="next-step-list">
+          <li>Mover o card para a coluna <strong>"Formulário preenchido"</strong></li>
+          <li>Produzir o contrato seguindo os passos abaixo</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="steps" style="margin-bottom:20px;">
+      <div class="step">
+        <div class="step-line"><div class="step-num">1</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Criar pasta do cliente no Drive</h4>
+          <p>Acesse a pasta de contratos e crie uma subpasta com o nome do cliente:</p>
+          <p style="margin-top:6px;"><a href="https://drive.google.com/drive/folders/13FzvRUeCAyuYOFl0nFSSsgQyApIm5hui?usp=sharing" target="_blank">Drive → Pasta de Contratos</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">2</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Copiar o modelo de contrato para a pasta</h4>
+          <p>Abra o modelo, faça uma cópia e mova para dentro da pasta do cliente:</p>
+          <p style="margin-top:6px;"><a href="https://docs.google.com/document/d/1qI_wZtyKhlPB-ThBMPg6JB2CnXRuh5RE/edit?usp=sharing&ouid=117174688490355892653&rtpof=true&sd=true" target="_blank">Modelo de Contrato</a></p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">3</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Preencher os campos em amarelo</h4>
+          <p>Ajuste todas as informações marcadas em amarelo no documento.</p>
+          <div class="tip">
+            <strong>⚠ Atenção ao valor:</strong> o valor a ser colocado no contrato é o que aparece em <strong>"Detalhes"</strong> da venda na Hotmart — não o valor da parcela. Veja o exemplo abaixo.
+          </div>
+          <div style="margin-top:10px;background:var(--bg);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;">
+            <p style="font-size:11px;color:var(--text-dim);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.05em;font-weight:600;">Exemplo — onde encontrar o valor</p>
+            <p style="font-size:12px;color:var(--text-muted);line-height:1.6;">Na Hotmart, abra a venda → clique em <strong style="color:var(--text);">Detalhes</strong> → o campo <strong style="color:var(--text);">Valor da Compra</strong> mostra o total (ex: 12 x de R$ 1.104,15). Use esse valor total no contrato.</p>
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-line"><div class="step-num">4</div><div class="step-connector"></div></div>
+        <div class="step-content">
+          <h4>Enviar para assinatura pelo Assina Aí</h4>
+          <p>Pedir acesso para <strong>Natália Coffani</strong> ou <strong>Karine Souza</strong>.</p>
+          <p style="margin-top:6px;">Após enviar, mover o card para <strong>"Contrato Enviado"</strong> e avisar o cliente.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- TAB: follow-up formulário -->
+  <div class="tab-panel" id="tab-pro-followup">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Enviar caso o formulário não seja preenchido.</p>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">1</div> Lembrete formulário</div>
+      <div class="msg-block">
+        <pre class="msg-text" id="pro-fu1">Ei, NOME! Tudo bem? Passando pra lembrar do preenchimento do formulário pra já conseguirmos marcar sua primeira call de consultoria individual 😊</pre>
+        <button class="copy-btn" onclick="copyMsg('pro-fu1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: pós-contrato -->
+  <div class="tab-panel" id="tab-pro-poscontrato">
+    <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Enviar após o contrato assinado. Pode enviar a agenda do Lads ou marcar com outros sócios.</p>
+    <div class="msg-group">
+      <div class="msg-label"><div class="num">1</div> Agendamento de consultoria</div>
+      <div class="msg-block">
+        <pre class="msg-text" id="pro-pc1">Ei, NOME! Tudo bem? Obrigada pela assinatura do contrato. Você já tem interesse em marcar a sua primeira call de consultoria individual? 😉</pre>
+        <button class="copy-btn" onclick="copyMsg('pro-pc1', this)"><svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar</button>
+      </div>
+    </div>
+
+    <div class="alert" style="margin-top:4px;display:flex;align-items:flex-start;gap:10px;">
+      <span style="font-size:16px;flex-shrink:0;">⚠️</span>
+      <div><strong>Quando a call for confirmada:</strong> registre a data e horário no campo "Negociação" do card e mova para a coluna <strong>"Call de consultoria agendada"</strong>.</div>
+    </div>
+  </div>
+
+
+  <!-- ============================================================ -->
+  <!--  LINKS IMPORTANTES                                            -->
+  <!-- ============================================================ -->
+  <div id="links"></div>
+  <div class="section-header" style="margin-top:56px;">
+    <div class="section-icon">🔗</div>
+    <h2>Links Importantes</h2>
+  </div>
+
+  <div class="link-grid">
+    <a class="link-card" href="https://app.hotmart.com/membership/api-oficial/products" target="_blank">
+      <div class="link-icon">🛒</div>
+      <div class="link-card-info">
+        <h4>Hotmart – Membros</h4>
+        <p>Liberar acesso de clientes</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://drive.google.com/drive/folders/13FzvRUeCAyuYOFl0nFSSsgQyApIm5hui?usp=sharing" target="_blank">
+      <div class="link-icon">📁</div>
+      <div class="link-card-info">
+        <h4>Drive – Contratos</h4>
+        <p>Pasta de contratos dos clientes</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://docs.google.com/document/d/1qI_wZtyKhlPB-ThBMPg6JB2CnXRuh5RE/edit?usp=sharing&ouid=117174688490355892653&rtpof=true&sd=true" target="_blank">
+      <div class="link-icon">📄</div>
+      <div class="link-card-info">
+        <h4>Modelo de Contrato</h4>
+        <p>Copiar e ajustar os campos em amarelo</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://vkmetrics.github.io/comunidadevkmetricspro/" target="_blank">
+      <div class="link-icon">🏠</div>
+      <div class="link-card-info">
+        <h4>Central da Comunidade</h4>
+        <p>Link enviado aos clientes no onboarding</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://forms.gle/ML5DQNYmUsj6wZZu7" target="_blank">
+      <div class="link-icon">📝</div>
+      <div class="link-card-info">
+        <h4>Formulário Pro</h4>
+        <p>Para produção de contrato</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://chat.whatsapp.com/LJEmXaf5cUE4Czg4Vxk6vI" target="_blank">
+      <div class="link-icon">💬</div>
+      <div class="link-card-info">
+        <h4>Grupo WhatsApp</h4>
+        <p>Comunidade VK Metrics Pro</p>
+      </div>
+    </a>
+    <a class="link-card" href="https://calendar.google.com/appointments/schedules/AcZssZ1XC641X_OKDeFoSEsu6TSQeTgMYVR_tbi36oISTYo-0rXXOBT9zSQ7YM10cxniYe1duwbZudY8" target="_blank">
+      <div class="link-icon">📆</div>
+      <div class="link-card-info">
+        <h4>Agenda do Lads</h4>
+        <p>Agendamento de consultorias</p>
+      </div>
+    </a>
+  </div>
+
+
+</div><!-- /page -->
+<script>
+  // ── NAVIGATION ──
+  function scrollTo(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ── TOAST ──
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg || 'Copiado!';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2000);
+  }
+
+  // ── COPY SINGLE MSG ──
+  function copyMsg(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copiado';
+      showToast();
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar';
+      }, 2500);
+    });
+  }
+
+  // ── COPY ALL ──
+  function copyAll(groupId) {
+    const group = document.getElementById(groupId);
+    if (!group) return;
+    const pres = group.querySelectorAll('pre.msg-text');
+    let all = '';
+    pres.forEach((p, i) => {
+      all += p.textContent.trim();
+      if (i < pres.length - 1) all += '\n\n---\n\n';
+    });
+    navigator.clipboard.writeText(all).then(() => {
+      const btn = document.getElementById('btn-' + groupId);
+      if (btn) {
+        btn.classList.add('copied');
+        btn.textContent = '✓ Todas copiadas!';
+        showToast('Todas as mensagens copiadas!');
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar todas as mensagens';
+        }, 2500);
+      }
+    });
+  }
+
+  // ── TABS ──
+  function switchTab(section, tab, btn) {
+    const prefix = 'tab-' + section + '-';
+    document.querySelectorAll('[id^="' + prefix + '"]').forEach(p => p.classList.remove('active'));
+    document.getElementById(prefix + tab).classList.add('active');
+    btn.closest('.tabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  // ── MODALS ──
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+      if (e.target === this) {
+        this.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  // ── CHECKLIST ──
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+  }
+</script>
+</body>
+</html>
