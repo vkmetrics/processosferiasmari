@@ -923,6 +923,21 @@
 </div>
 
 
+<!-- MODAL MENSAGEM SUGERIDA -->
+<div class="modal-overlay" id="modal-msg">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('modal-msg')">✕</button>
+    <h3 id="modal-msg-title">💬 Mensagem sugerida</h3>
+    <div class="msg-block" style="margin-top:16px;">
+      <pre class="msg-text" id="modal-msg-body" style="white-space:pre-wrap;"></pre>
+      <button class="copy-btn" id="modal-msg-copy" onclick="copyModalMsg()">
+        <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
+        Copiar
+      </button>
+    </div>
+  </div>
+</div>
+
 <!-- PAGE -->
 <div class="page">
 
@@ -1247,20 +1262,6 @@
     </div>
   </div>
 
-  <!-- MODAIS DE MENSAGEM SUGERIDA -->
-  <div class="modal-overlay" id="modal-msg">
-    <div class="modal">
-      <button class="modal-close" onclick="closeModal('modal-msg')">✕</button>
-      <h3 id="modal-msg-title">💬 Mensagem sugerida</h3>
-      <div class="msg-block" style="margin-top:16px;">
-        <pre class="msg-text" id="modal-msg-body" style="white-space:pre-wrap;"></pre>
-        <button class="copy-btn" id="modal-msg-copy" onclick="copyModalMsg()">
-          <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
-          Copiar
-        </button>
-      </div>
-    </div>
-  </div>
   <!-- ============================================================ -->
   <!--  FUNIL                                                        -->
   <!-- ============================================================ -->
@@ -1718,6 +1719,180 @@ Neste primeiro momento, vamos seguir quatro passos:</pre>
 
 </div><!-- /page -->
 <script>
+  // ── FILTRO DE RESPONSÁVEL ──
+  function filterResponsavel(resp, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.rotina-item').forEach(item => {
+      if (resp === 'todos') {
+        item.classList.remove('hidden');
+      } else {
+        const itemResp = item.dataset.resp || '';
+        item.classList.toggle('hidden', !itemResp.includes(resp));
+      }
+    });
+    // Hide/show empty days
+    document.querySelectorAll('.rotina-day').forEach(day => {
+      const visible = [...day.querySelectorAll('.rotina-item')].some(i => !i.classList.contains('hidden'));
+      day.style.display = visible ? '' : 'none';
+    });
+  }
+
+  // ── MENSAGENS SUGERIDAS ──
+  const mensagens = {
+    'msg-s1-seg-prog': {
+      titulo: 'Programação da semana — Semana 22/06',
+      texto: `Bom dia, pessoal! Deixando aqui nosso calendário da semana! 
+
+Plantão de Automações com Pedro Cabral - 23/06 (a partir das 15h30) 
+🔗 Link: https://meet.google.com/kbo-vfbr-mcp
+
+Aula 5 do Desafio de Trackeamento Avançado com Dani Tiemi - 24/06 (a partir das 10h)
+🔗 Link: https://meet.google.com/vcp-qfbd-jxj
+
+Plantão de Criativos com Homero Pirro - 24/06 (a partir das 15h) 
+🔗 Link: https://meet.google.com/cbd-uxcy-cqi
+
+VKuarta no Zoom sobre COLOCAR TEMA AQUI - 24/06 (a partir das 17h)
+🔗 Link: https://zoom.us/j/98689846894
+
+Plantão de Copy com o Lucas Gilbert - 25/06 (a partir das 10h)
+Não precisará de inscrição!
+🔗 Link: https://meet.google.com/kus-sxne-nhp
+
+Hotseat - 26/06 (a partir das 18h)
+🔗 Link: https://meet.google.com/sbe-dtxr-dcy
+
+Vocês podem acompanhar tudo por aqui também: https://vkmetrics.github.io/comunidadevkmetricspro/`
+    },
+    'msg-s1-seg-desafio': {
+      titulo: 'Lembrete tarefa Desafio — Semana 22/06',
+      texto: `Pessoal, lembrar que o prazo pra entregar a tarefa da aula 4 do Desafio de Trackeamento Avançado é quarta! 
+
+Seguir os passos abaixo e enviar um link do Drive com print do teste final:
+
+• Contratar uma VPS e configurar n8n e banco de dados (se ainda não tiver)
+• Vincular o banco na IDE
+• Criar a tabela no banco a partir do SQL que vou fornecer
+• Criar a credencial para conectar o n8n ao banco de dados
+• Pegar os fluxos do n8n e fazer os ajustes necessários (URL do Webhook, banco de dados e URL do servidor)
+• Testar a tag/fluxo que faz o armazenamento dos dados de navegação/usuário
+• Criar o Webhook na plataforma de pagamento
+• Ativar o power up "sGTM Preview header config", esperar o contêiner ficar no modo "Running"
+• Novamente e enviar o evento de teste do Webhook
+• Verificar se as tags estão disparando corretamente
+• Teste final: gerar uma compra real e ver se os dados serão enriquecidos corretamente
+• Estando tudo certo, publica e RETIRE o pixel da integração nativa da plataforma
+
+Link dos slides: https://canva.link/9nm8wxuso0mgy8o
+Links dos materiais: https://drive.google.com/drive/folders/1pArI72q3gWGMoyHBZMWiZ43kVS8QHLXv?usp=sharing
+Link do formulário de entrega: https://forms.gle/EM58k1NLney8ku8C6
+Link da aula: https://hotmart.com/pt-BR/club/api-oficial/products/4428193/content/YOmkZbGAed?track=3V4Vr8LE42`
+    },
+    'msg-s1-ter-auto': {
+      titulo: 'Lembrete Plantão de Automações — 23/06',
+      texto: `Bom dia, pessoal! Passando pra lembrar que hoje temos Plantão de Automações com o Cabral a partir das 15h30! 
+
+Link: https://meet.google.com/kbo-vfbr-mcp`
+    },
+    'msg-s1-qua-desafio': {
+      titulo: 'Lembrete Desafio Dani Tiemi — 24/06',
+      texto: `Bom dia, pessoal!! Passando com alguns lembretes pra hoje:
+
+Às 10h temos a aula 5 do Desafio de Trackeamento Avançado com Dani Tiemi!
+
+Link: https://meet.google.com/vcp-qfbd-jxj`
+    },
+    'msg-s1-qua-criativos': {
+      titulo: 'Lembrete Criativos + VKuarta — 24/06',
+      texto: `Às 15h temos Plantão de Criativos com o Homero!
+
+Link: https://meet.google.com/cbd-uxcy-cqi
+
+Às 17h temos VKuarta sobre COLOCAR O TEMA AQUI.
+
+Link: https://zoom.us/j/98689846894`
+    },
+    'msg-s1-qui-copy': {
+      titulo: 'Lembrete Copy + Hotseat — 25/06',
+      texto: `Bom dia, pessoal! Hoje temos:
+Plantão de Copy com o Lucas Gilbert a partir das 10h! Não precisa de inscrição!
+
+🔗 Link: https://meet.google.com/kus-sxne-nhp
+
+E Hotseat a partir das 18h!
+
+🔗 Link: https://meet.google.com/sbe-dtxr-dcy`
+    },
+    'msg-s2-seg-prog': {
+      titulo: 'Programação da semana — Semana 29/06',
+      texto: `Bom dia, pessoal! Deixando aqui nosso calendário da semana! 
+
+Plantão de Automações com Pedro Cabral - 30/06 (a partir das 15h30) 
+🔗 Link: https://meet.google.com/kbo-vfbr-mcp
+
+Aula 6 do Desafio de Trackeamento Avançado com Dani Tiemi - 30/06 (a partir das 10h)
+🔗 Link: https://meet.google.com/vcp-qfbd-jxj
+
+VKuarta no Zoom sobre COLOCAR TEMA AQUI – 01/07 (a partir das 17h)
+🔗 Link: https://zoom.us/j/98689846894
+
+Plantão de Tráfego – 02/07 (a partir das 14h)
+Não precisará de inscrição!
+🔗 Link: https://meet.google.com/bdi-hryg-ivd
+
+Vocês podem acompanhar tudo por aqui também: https://vkmetrics.github.io/comunidadevkmetricspro/`
+    },
+    'msg-s2-ter-auto': {
+      titulo: 'Lembrete Plantão de Automações — 30/06',
+      texto: `Bom dia, pessoal! Passando pra lembrar que hoje temos Plantão de Automações com o Cabral a partir das 15h30! 
+
+Link: https://meet.google.com/kbo-vfbr-mcp`
+    },
+    'msg-s2-qua-desafio': {
+      titulo: 'Lembrete Desafio Dani Tiemi — 01/07',
+      texto: `Bom dia, pessoal!! Passando com alguns lembretes pra hoje:
+
+Às 10h temos o último encontro do Desafio de Trackeamento Avançado com Dani Tiemi! Será para tirar dúvidas! Usem e abusem 😅 
+
+Link: https://meet.google.com/vcp-qfbd-jxj`
+    },
+    'msg-s2-qua-vkuarta': {
+      titulo: 'Lembrete VKuarta — 01/07',
+      texto: `E às 17h temos VKuarta sobre COLOCAR O TEMA AQUI.
+
+Link: https://zoom.us/j/98689846894`
+    },
+    'msg-s2-qui-trafego': {
+      titulo: 'Lembrete Plantão de Tráfego — 02/07',
+      texto: `Bom dia, pessoal! Hoje temos Plantão de Tráfego a partir das 14h! Não precisa de inscrição!
+
+🔗 Link: https://meet.google.com/bdi-hryg-ivd`
+    },
+  };
+
+  function openMsgModal(id) {
+    const msg = mensagens[id];
+    if (!msg) return;
+    document.getElementById('modal-msg-title').textContent = '💬 ' + msg.titulo;
+    document.getElementById('modal-msg-body').textContent = msg.texto;
+    openModal('modal-msg');
+  }
+
+  function copyModalMsg() {
+    const text = document.getElementById('modal-msg-body').textContent;
+    const btn = document.getElementById('modal-msg-copy');
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8l3.5 3.5L13 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Copiado';
+      showToast();
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = '<svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg> Copiar';
+      }, 2500);
+    });
+  }
+
   // ── NAVIGATION ──
   function scrollTo(id) {
     const el = document.getElementById(id);
