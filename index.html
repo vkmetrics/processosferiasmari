@@ -812,9 +812,9 @@
   <div class="logo-dot"></div>
   <h1>VK Metrics Pro <span>— Central de Processos</span></h1>
   <nav class="nav-pills">
-    <button class="nav-pill" onclick="scrollTo('rotina')">Rotina</button>
-    <button class="nav-pill" onclick="scrollTo('funil')">Funil</button>
-    <button class="nav-pill" onclick="scrollTo('links')">Links</button>
+    <button class="nav-pill" onclick="scrollToSection('rotina')">Rotina</button>
+    <button class="nav-pill" onclick="scrollToSection('funil')">Funil</button>
+    <button class="nav-pill" onclick="scrollToSection('links')">Links</button>
   </nav>
 </header>
 
@@ -990,6 +990,7 @@
             <span>Enviar lembrete do Plantão de Dúvidas no grupo do Desafio</span>
             <div class="rotina-item-meta">
               <span class="resp-tag resp-lads">Lads</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-lads-plantao-duvidas')" title="Ver mensagem sugerida">💬</button>
             </div>
           </div>
         </li>
@@ -1013,6 +1014,7 @@
             <span>Enviar lembrete do Plantão de Dúvidas no grupo do Desafio</span>
             <div class="rotina-item-meta">
               <span class="resp-tag resp-lads">Lads</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-lads-plantao-duvidas')" title="Ver mensagem sugerida">💬</button>
             </div>
           </div>
         </li>
@@ -1143,6 +1145,7 @@
             <span>Enviar lembrete da aula de Debriefing no grupo do Desafio</span>
             <div class="rotina-item-meta">
               <span class="resp-tag resp-lads">Lads</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-lads-debriefing')" title="Ver mensagem sugerida">💬</button>
             </div>
           </div>
         </li>
@@ -1206,6 +1209,7 @@
             <span>Enviar lembrete da aula de Debriefing no grupo do Desafio</span>
             <div class="rotina-item-meta">
               <span class="resp-tag resp-lads">Lads</span>
+              <button class="msg-icon-btn" onclick="openMsgModal('msg-lads-debriefing')" title="Ver mensagem sugerida">💬</button>
             </div>
           </div>
         </li>
@@ -1867,6 +1871,18 @@ Link: https://zoom.us/j/98689846894`
 
 🔗 Link: https://meet.google.com/bdi-hryg-ivd`
     },
+    'msg-lads-plantao-duvidas': {
+      titulo: 'Plantão de Dúvidas — Desafio',
+      texto: `Plantão de Dúvidas de Recuperação de Vendas | Desafio de Implementação de Lançamento Pago
+Terça-feira, 23 de junho · 3:00 – 4:00pm
+Link: https://meet.google.com/pqn-dgxe-yjf`
+    },
+    'msg-lads-debriefing': {
+      titulo: 'Debriefing — Desafio',
+      texto: `Debriefing | Desafio de Implementação de Lançamento Pago
+Quarta-feira, 1 de julho · 3:00 – 4:30pm
+Link: https://meet.google.com/ynv-dsyo-hwi`
+    },
   };
 
   function openMsgModal(id) {
@@ -1892,7 +1908,7 @@ Link: https://zoom.us/j/98689846894`
   }
 
   // ── NAVIGATION ──
-  function scrollTo(id) {
+  function scrollToSection(id) {
     const el = document.getElementById(id);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
