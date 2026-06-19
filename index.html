@@ -683,6 +683,46 @@
     margin: 32px 0;
   }
 
+  /* ── CHECKLIST STEPS ── */
+  .checklist-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-left: 0;
+    list-style: none;
+    counter-reset: step-counter;
+  }
+  .checklist-steps li {
+    position: relative;
+    padding-left: 32px;
+    font-size: 13px;
+    color: var(--text);
+    line-height: 1.6;
+    counter-increment: step-counter;
+  }
+  .checklist-steps li::before {
+    content: counter(step-counter);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20px; height: 20px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(108,99,255,0.4);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .checklist-sub {
+    display: block;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+
   /* ── FILTER BAR ── */
   .filter-bar {
     display: flex;
@@ -830,8 +870,8 @@
       <div class="step">
         <div class="step-line"><div class="step-num">1</div><div class="step-connector"></div></div>
         <div class="step-content">
-          <h4>Pedir acesso à Mari Tirelli</h4>
-          <p>Antes de qualquer coisa, confirme que você tem acesso de admin. Se não tiver, solicite para <strong>Mari Tirelli</strong>.</p>
+          <h4>Pedir acesso à Mari Tirelli ou Lia</h4>
+          <p>Antes de qualquer coisa, confirme que você tem acesso de admin. Se não tiver, solicite para <strong>Mari Tirelli ou Lia</strong>.</p>
         </div>
       </div>
       <div class="step">
@@ -1047,6 +1087,7 @@
             <span>Subir aula da Dani Tiemi na Hotmart e colocar tarefa/materiais na descrição — <a href="https://app.hotmart.com/membership/api-oficial/products/edit/4428193/admin/beta/modules" target="_blank" style="color:var(--accent);">último módulo</a></span>
             <div class="rotina-item-meta">
               <span class="resp-tag resp-bia">Bia</span>
+              <a class="msg-icon-btn" href="https://drive.google.com/file/d/1dsHERdjeloGzkQZIr_A6lmORLKVU965d/view?usp=sharing" target="_blank" title="Passo a passo para subir aula" style="text-decoration:none;width:auto;padding:0 10px;font-size:12px;gap:4px;">📄 Passo a passo para subir aula</a>
             </div>
           </div>
         </li>
@@ -1359,13 +1400,28 @@
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('roas', 'msgs', this)">Mensagens de contato</button>
+    <button class="tab-btn active" onclick="switchTab('roas', 'checklist', this)">Checklist</button>
+    <button class="tab-btn" onclick="switchTab('roas', 'msgs', this)">Mensagens de contato</button>
     <button class="tab-btn" onclick="switchTab('roas', 'reforco', this)">Follow-up consultorias</button>
     <button class="tab-btn" onclick="switchTab('roas', 'semgrupo', this)">Sem entrada no grupo</button>
   </div>
 
+  <!-- TAB: checklist -->
+  <div class="tab-panel active" id="tab-roas-checklist">
+    <div class="card">
+      <div class="card-title">Checklist do onboarding</div>
+      <ul class="checklist-steps">
+        <li>Contato de boas-vindas</li>
+        <li>Liberação do e-mail na Hotmart</li>
+        <li>Liberação do cliente no grupo da Comunidade (dar boas-vindas no grupo)</li>
+        <li>Após o cliente entrar no grupo, perguntar se ele tem interesse e marcar a primeira call de consultoria</li>
+        <li>Atualizar o card no DataCrazy <span class="checklist-sub">(observações se tiver; acesso área de membros; acesso comunidade; consultoria individual; gerente de contas)</span></li>
+      </ul>
+    </div>
+  </div>
+
   <!-- TAB: msgs de contato -->
-  <div class="tab-panel active" id="tab-roas-msgs">
+  <div class="tab-panel" id="tab-roas-msgs">
     <button class="copy-all-btn" onclick="copyAll('roas-contact')" id="btn-roas-contact">
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
       Copiar todas as mensagens
@@ -1497,14 +1553,31 @@
   </div>
 
   <div class="tabs">
-    <button class="tab-btn active" onclick="switchTab('pro', 'msgs', this)">Mensagens de contato</button>
+    <button class="tab-btn active" onclick="switchTab('pro', 'checklist', this)">Checklist</button>
+    <button class="tab-btn" onclick="switchTab('pro', 'msgs', this)">Mensagens de contato</button>
     <button class="tab-btn" onclick="switchTab('pro', 'contrato', this)">Formulário → Contrato</button>
     <button class="tab-btn" onclick="switchTab('pro', 'followup', this)">Follow-up formulário</button>
     <button class="tab-btn" onclick="switchTab('pro', 'poscontrato', this)">Pós-contrato</button>
   </div>
 
+  <!-- TAB: checklist -->
+  <div class="tab-panel active" id="tab-pro-checklist">
+    <div class="card">
+      <div class="card-title">Checklist do onboarding</div>
+      <ul class="checklist-steps">
+        <li>Contato de boas-vindas</li>
+        <li>Liberação do e-mail na Hotmart</li>
+        <li>Liberação do cliente no grupo da Comunidade (dar boas-vindas no grupo)</li>
+        <li>Preenchimento do formulário com os dados</li>
+        <li>Após o cliente preencher o formulário, produzir o contrato <span class="checklist-sub">(pode deixar o contrato pra Mari quando ela voltar — para esses casos, colocar a tag <strong>"Contrato pendente - Mari"</strong>)</span></li>
+        <li>Após o cliente preencher o formulário, perguntar se ele tem interesse e marcar a primeira call de consultoria</li>
+        <li>Atualizar o card no DataCrazy <span class="checklist-sub">(observações se tiver; acesso área de membros; acesso comunidade; formulário; consultoria individual; contrato; gerente de contas)</span></li>
+      </ul>
+    </div>
+  </div>
+
   <!-- TAB: msgs pro -->
-  <div class="tab-panel active" id="tab-pro-msgs">
+  <div class="tab-panel" id="tab-pro-msgs">
     <button class="copy-all-btn" onclick="copyAll('pro-contact')" id="btn-pro-contact">
       <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:16px;height:16px;"><rect x="5" y="5" width="9" height="9" rx="1.5" stroke="currentColor" stroke-width="1.5"/><path d="M3 11H2a1 1 0 01-1-1V2a1 1 0 011-1h8a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.5"/></svg>
       Copiar todas as mensagens
